@@ -53,8 +53,8 @@ public class Router implements Serializable{
 
     public Router() {
         ObjectStore save = new ObjectStore();
-        if(save.readObject("save/chatInterface.mila")!=null){
-           this.chatInterface = (Chats) save.readObject("chatInterface.mila"); 
+        if(save.isFile("save/chatInterface.mila")){
+           this.chatInterface = (Chats) save.readObject("save/chatInterface.mila"); 
         }
                 
     }

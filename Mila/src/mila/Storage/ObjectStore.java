@@ -27,6 +27,23 @@ public class ObjectStore {
         
     }
     
+    public boolean isFile(String path){
+        try{
+        // Open file to read from, named SavedObj.sav.
+        FileInputStream saveFiles = new FileInputStream(path);
+        ObjectInputStream save = new ObjectInputStream(saveFiles);
+        save.close();
+        return true;
+        //this.chatInterface = chatRead;
+        }   catch (FileNotFoundException ex) {  
+            Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (IOException ex) {
+            Logger.getLogger(ObjectStore.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        return false;
+    }
+    
     public Object readObject(String path)
     {
         // Wrap all in a try/catch block to trap I/O errors.
@@ -44,7 +61,7 @@ public class ObjectStore {
         return save.readObject();
         //this.chatInterface = chatRead;
     }   catch (FileNotFoundException ex) {  
-            //Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (IOException ex) {
             Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);

@@ -17,6 +17,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.*;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mila.routing.*;
 import mila.Storage.ObjectStore;
 
@@ -40,6 +42,8 @@ public class CommandInterface implements Serializable{
         addCommand("admin","Admin mode: [password]");
         addCommand("profiles","Display a list of profiles");
         addAdmin("profiles");
+        addCommand("reboot","Reboot the AI system");
+        addAdmin("reboot");
 //        addCommand("cmdrename","Rename a command: [old name] [new name]");
 //        addCommand("cmddescribe","Change a command description: [command] [description]");
     }
@@ -130,6 +134,15 @@ public class CommandInterface implements Serializable{
                 else{
                     return "This command requires admin rights!";
                 }
+            case "reboot":
+                if(!command[location].getAdmin()||(user.isAdmin())){
+                    ObjectStore save2 = new ObjectStore();
+                    save2.writeObject("save/chatInterface.mila",chatInterface);
+                    reboot();
+                }
+                else{
+                    return "This command requires admin rights!";
+                }
         }    
 
         return "The command ["+cmd[0]+"] is not recognised, try /help for a list of commands";
@@ -178,4 +191,23 @@ public class CommandInterface implements Serializable{
         }
         return "Here are a list of the commands:\n"+list;
     }
+    
+    public static void reboot(){
+    String shutdownCommand;
+    String operatingSystem = System.getProperty("os.name");
+
+    if ("Linux".equals(operatingSystem) || "Mac OS X".equals(operatingSystem)) {
+        shutdownCommand = "reboot -h now";
+    }
+    else  {
+        shutdownCommand = "shutdown.exe -r -t 0";
+    }
+
+        try {
+            Runtime.getRuntime().exec(shutdownCommand);
+        } catch (IOException ex) {
+            Logger.getLogger(CommandInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    System.exit(0);
+}
 }
