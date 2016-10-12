@@ -197,7 +197,7 @@ public class CommandInterface implements Serializable{
     String operatingSystem = System.getProperty("os.name");
 
     if ("Linux".equals(operatingSystem) || "Mac OS X".equals(operatingSystem)) {
-        shutdownCommand = "reboot -h now";
+        shutdownCommand = "sudo reboot";
     }
     else  {
         shutdownCommand = "shutdown.exe -r -t 0";
