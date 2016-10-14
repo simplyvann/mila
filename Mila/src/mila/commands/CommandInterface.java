@@ -44,6 +44,8 @@ public class CommandInterface implements Serializable{
         addAdmin("profiles");
         addCommand("reboot","Reboot the AI system");
         addAdmin("reboot");
+        addCommand("git","pull omnee from repo");
+        addAdmin("git");
 //        addCommand("cmdrename","Rename a command: [old name] [new name]");
 //        addCommand("cmddescribe","Change a command description: [command] [description]");
     }
@@ -143,6 +145,13 @@ public class CommandInterface implements Serializable{
                 else{
                     return "This command requires admin rights!";
                 }
+            case "git":
+                if(!command[location].getAdmin()||(user.isAdmin())){
+                    linuxCommand("git --work-tree=/var/zpanel/hostdata/zadmin/public_html/omnee-app_com pull origin master");
+                }
+                else{
+                    return "This command requires admin rights!";
+                }
         }    
 
         return "The command ["+cmd[0]+"] is not recognised, try /help for a list of commands";
@@ -205,6 +214,15 @@ public class CommandInterface implements Serializable{
 
         try {
             Runtime.getRuntime().exec(shutdownCommand);
+        } catch (IOException ex) {
+            Logger.getLogger(CommandInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    System.exit(0);
+}
+    
+    public static void linuxCommand(String linuxcmd){
+        try {
+            Runtime.getRuntime().exec(linuxcmd);
         } catch (IOException ex) {
             Logger.getLogger(CommandInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
