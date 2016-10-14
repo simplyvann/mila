@@ -152,6 +152,7 @@ public class CommandInterface implements Serializable{
                 else{
                     return "This command requires admin rights!";
                 }
+                return "Git pulled omnee";
         }    
 
         return "The command ["+cmd[0]+"] is not recognised, try /help for a list of commands";
