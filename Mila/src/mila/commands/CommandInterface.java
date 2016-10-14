@@ -227,6 +227,6 @@ public class CommandInterface implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(CommandInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
-    System.exit(0);
+    //System.exit(0);
 }
 }
